@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
-    "e2e:smoke": "cypress run --browser chrome --env TAGS='@smoke and not @wip'",
-    "e2e:regressao": "cypress run --browser chrome --env TAGS='@regressao and not @wip'",
+    "e2e:smoke": "cypress run --browser chrome --spec cypress/e2e/features/login.feature --env TAGS=@smoke",
+    "e2e:regressao": "cypress run --browser chrome --spec cypress/e2e/features/checkout.feature,cypress/e2e/features/login_invalido.feature --env TAGS=@regressao",
     "api:run": "npx newman run postman/jsonplaceholder.collection.json -e postman/jsonplaceholder.env.json -r cli,htmlextra --reporter-htmlextra-export reports/newman/report.html",
     "k6:load": "k6 run --summary-export=reports/k6/load-summary.json k6/load_posts_ramping.js",
     "k6:stress": "k6 run --summary-export=reports/k6/stress-summary.json k6/stress_posts.js"
