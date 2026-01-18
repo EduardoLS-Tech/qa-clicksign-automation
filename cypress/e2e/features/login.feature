@@ -1,7 +1,8 @@
 # language: pt
-@smoke @e2e
+@e2e
 Funcionalidade: Login
 
+  @smoke
   Cenário: Login com sucesso
     Dado que eu acesso a página de login
     Quando eu realizo login com usuário "standard"

@@ -13,7 +13,7 @@ module.exports = defineConfig({
     // ✅  Steps
     env: {
       "cypress-cucumber-preprocessor": {
-        stepDefinitions: "cypress/e2e/steps/**/*.{js,ts}",
+        stepDefinitions: "cypress/support/step_definitions/**/*.{js,ts}",
       },
     },
 
