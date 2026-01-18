@@ -1,5 +1,6 @@
 # language: pt
-@regressao @negativo @e2e
+@regressao @e2e
+
 Funcionalidade: Login inválido
 
   Cenário: Usuário bloqueado não deve autenticar
