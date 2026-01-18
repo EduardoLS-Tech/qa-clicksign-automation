@@ -1,0 +1,89 @@
+name: CI - E2E, API e Carga
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  e2e_smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run e2e:smoke
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-smoke-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  e2e_regressao:
+    runs-on: ubuntu-latest
+    needs: [e2e_smoke]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run e2e:regressao
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-regressao-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  api_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run api:run
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: reports/newman/report.html
+
+  load_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - uses: grafana/setup-k6-action@v1
+
+      - run: mkdir -p reports/k6
+      - run: npm run k6:load
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k6-load-summary
+          path: reports/k6/load-summary.json

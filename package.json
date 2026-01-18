@@ -1,0 +1,21 @@
+{
+  "name": "qa_clicksign",
+  "version": "1.0.0",
+  "description": "Projeto de automacao E2E (Cypress+Cucumber), API (Postman/Newman) e Carga (k6) com CI/CD",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "e2e:smoke": "cypress run --browser chrome --env TAGS='@smoke and not @wip'",
+    "e2e:regressao": "cypress run --browser chrome --env TAGS='@regressao and not @wip'",
+    "api:run": "npx newman run postman/jsonplaceholder.collection.json -e postman/jsonplaceholder.env.json -r cli,htmlextra --reporter-htmlextra-export reports/newman/report.html",
+    "k6:load": "k6 run --summary-export=reports/k6/load-summary.json k6/load_posts_ramping.js",
+    "k6:stress": "k6 run --summary-export=reports/k6/stress-summary.json k6/stress_posts.js"
+  },
+  "devDependencies": {
+    "cypress": "^12.17.4",
+    "@badeball/cypress-cucumber-preprocessor": "^17.2.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "newman": "^6.2.0",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}
